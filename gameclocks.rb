@@ -34,9 +34,3 @@ class GameTime
     printf "%02d:%02d  day: %d\r", @hours, @minutes, @days
   end
 end
-
-test = GameTime.new
-while true
-  sleep 0.1
-  test.clocks
-end
