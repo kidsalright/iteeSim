@@ -1,7 +1,7 @@
 class Worker
 
   def initialize
-    @rank = 'junior'
+    @rank = 'Junior'
     @name = 'Randomize'
     @surname = 'Later'
     @sex = true

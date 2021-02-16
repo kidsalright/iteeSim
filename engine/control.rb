@@ -6,20 +6,9 @@ require 'yaml'
 
 class ControlPanel
 
-  attr_reader :time
-
-  def initialize
-    @arts = Arts.new
-    new_game
-  end
-
   def new_game
     @boss = Boss.new
     @time = GameTime.new
-  end
-
-  def boss_info
-    puts "#{@boss.balance}$"
   end
 
   def save 
