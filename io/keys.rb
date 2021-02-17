@@ -1,6 +1,6 @@
 require 'io/console'
 
-def read_char
+def read_key
   STDIN.echo = false
   STDIN.raw!
 
@@ -12,11 +12,12 @@ def read_char
 ensure
   STDIN.echo = true
   STDIN.cooked!
+
   return input
 end
 
-def show_single_key
-  c = read_char
+def show_key
+  c = read_key
 
   case c
   when " "
@@ -53,4 +54,4 @@ def show_single_key
   end
 end
 
-show_single_key while(true)
+show_key while true

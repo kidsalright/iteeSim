@@ -22,7 +22,7 @@ class GameTime
   end
 
   def convert
-    @minutes += passed_ms / 100
+    @minutes += passed_ms / 500
     @hours += @minutes / 60
     @minutes %= 60
     @days += @hours / 24
@@ -33,4 +33,10 @@ class GameTime
     convert
     printf "%02d:%02d  day: %d\r", @hours, @minutes, @days
   end
+end
+
+t = GameTime.new
+while true
+  t.clocks
+  sleep(0.5)
 end

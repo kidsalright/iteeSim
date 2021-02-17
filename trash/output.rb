@@ -31,7 +31,7 @@ class Test
   attr_reader :boards, :commands
 
   def initialize
-    @commands = %w(spaerma ssss ssddad aAAAAAAAA Back exit)
+    @commands = %w(ssss ssddad aAAAAAAAA Back exit)
     @boards = File.readlines('border')
   end
 
