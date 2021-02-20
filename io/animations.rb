@@ -16,7 +16,7 @@ class Animations
   end
 
   def setColors
-    @r, @g, @b = 155, 253, 200
+    @r, @g, @b = 80, 183, 210
   end
 
   def newColors
@@ -44,34 +44,38 @@ class Animations
     end
   end
 
+  def openArts
+    @pc = getArt('pc')
+    @title = getArt('title')
+    @keys = getArt('keyboard')
+    @mouse = getArt('mouse')
+  end
+
   def drawDetails
     printf "\e[0;0H"
-    art = getArt('pc')
     printf "\e[3B"
-    art.each { |i| printf "%s\e[17C%s\e[0m", getStr, i}
+    @pc.each { |i| printf "%s\e[17C%s\e[0m", getStr, i}
     printf "\e[0;0H"
     printf "\e[4B"
     13.times { printf "\e[44C%s%68s\e[0m\n", getBg, "" }
     printf "\e[11A"
-    art = getArt('title')
-    art.each { |i| printf "%s\e[30m\e[46C%s\e[0m", getBg, i}
-    art = getArt('keyboard')
+    @title.each { |i| printf "%s\e[30m\e[46C%s\e[0m", getBg, i}
     printf "\e[13B"
-    art.each { |i| printf "%s\e[19C%s\e[0m", getStr, i }
+    @keys.each { |i| printf "%s\e[19C%s\e[0m", getStr, i }
     printf "\e[8A"
-    art = getArt('mouse')
-    art.each { |i| printf "%s\e[90C%s\e[0m", getStr, i}
+    @mouse.each { |i| printf "%s\e[90C%s\e[0m", getStr, i}
   end
 
   def drawBg
     puts `clear`
+    openArts
     printf "\e[#{HEIGHT}B"
     art = getArt('intro')
     setColors
     art.reverse_each { |i| printf "\e[2A%s%10s%s\e[0m", getStr, "", i ; sleep 0.02}
-    @r = 255
-    @g = 0
-    @b = 0
+    @r = 0
+    @g = 255
+    @b = 150
     while true
       drawDetails
       sleep 0.06
