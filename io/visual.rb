@@ -1,4 +1,3 @@
-require_relative 'arts'
 require 'io/console'
 
 class InOut
@@ -29,6 +28,7 @@ class InOut
     when "\r"
       return :ok
     when "\e"
+      exit 0
       return :esc
     when "\e[A"
       return :up
@@ -46,3 +46,7 @@ class InOut
 end
 
 hah = InOut.new
+while true
+  printf "\r%d", rand(1000)
+  hah.catchKey
+end
