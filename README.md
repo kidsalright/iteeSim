@@ -3,4 +3,4 @@ and the game could be really cool,
 but im tired of perspectiveless coding,
 hire me please heh
 
-![alt-text]('./trash/introAnim.gif')
+![alt-text]('trash/introAnim.gif')
