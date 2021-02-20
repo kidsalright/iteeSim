@@ -24,21 +24,53 @@ class String
   def reverse_color;  "\e[7m#{self}\e[27m" end
 end
 
-class Arts
+class Animations
 
-  def initialize
-    cls = self.class
-    cls.instance_methods(false).each do |method|
-      cls.instance_method(method).bind(self).call
+  def getArt(name)
+    File.readlines("ascii/#{name}")
+  end
+
+  def introName
+    color = 31
+    1000.times do
+      x = 47
+      y = 5
+      printf "\033[#{y}H"
+      pic = getArt('intro1')
+      pic.each do |i|
+        printf "\e[44m\e[#{color}m\033[#{x}C%s\e[0m" ,i
+      end
+      sleep 0.2
+      printf "\033[#{y}H"
+      pic2 = getArt('intro2')
+      pic2.each do |i2|
+        printf "\e[44m\e[#{color}m\033[#{x}C%s\e[0m" ,i2
+      end
+      if color == 33
+        color += 2
+      end
+      if color == 36
+        color = 31
+      end
+      color += 1
+      sleep 0.2
     end
   end
 
-  def pc
-    pic = File.readlines('ascii/bigpc')
-  end
-
-  def palms
-    pic = File.readlines('ascii/palms')
+  def greeting
+    puts `clear`
+    36.times do
+      printf "\e[44m%140s\e[0m\n", " "
+    end
+    pic = getArt('intropc')
+    pic.reverse_each do |i|
+      printf "\e[44m\033[2A%10s%s\e[0m", " ", i
+      sleep (0.1)
+    end
+    introName
   end
 
 end
+
+t = Animations.new
+t.greeting

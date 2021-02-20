@@ -4,7 +4,6 @@ require 'io/console'
 class InOut
 
   def initialize
-    greeting
   end
 
   def readKey
@@ -28,30 +27,19 @@ class InOut
 
     case c
     when "\r"
-      return 'ok'
+      return :ok
     when "\e"
-      return 'esc'
+      return :esc
     when "\e[A"
-      return 'up'
+      return :up
     when "\e[B"
-      return 'down'
+      return :down
     when "\u0003"
       exit 0
     when /^.$/
       return c.inspect
     else
       return c.inspect
-    end
-  end
-
-  def greeting
-    25.times do |i|
-      printf "\033[46m\n"
-      printf "%70s\n", ""
-      sleep 0.05
-    end
-    printf "%50s", "enter to contine"
-    until catchKey == 'ok'
     end
   end
 
