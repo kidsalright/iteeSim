@@ -51,12 +51,15 @@ class Animations
     @mouse = getArt('mouse')
   end
 
+
+end
+
+class IntroAnim < Animations
+
   def drawDetails
-    printf "\e[0;0H"
-    printf "\e[3B"
+    printf "\e[1B"
     @pc.each { |i| printf "%s\e[17C%s\e[0m", getStr, i}
-    printf "\e[0;0H"
-    printf "\e[4B"
+    printf "\e[10A"
     13.times { printf "\e[44C%s%68s\e[0m\n", getBg, "" }
     printf "\e[11A"
     @title.each { |i| printf "%s\e[30m\e[46C%s\e[0m", getBg, i}
@@ -64,6 +67,7 @@ class Animations
     @keys.each { |i| printf "%s\e[19C%s\e[0m", getStr, i }
     printf "\e[8A"
     @mouse.each { |i| printf "%s\e[90C%s\e[0m", getStr, i}
+    printf "\e[32A"
   end
 
   def drawBg
@@ -85,5 +89,5 @@ class Animations
 
 end
 
-t = Animations.new
+t = IntroAnim.new
 t.drawBg
