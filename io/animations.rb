@@ -1,4 +1,4 @@
-HEIGHT = 44
+HEIGHT = 39
 WIDTH = 130
 
 class Animations
@@ -25,65 +25,70 @@ class Animations
 
   def  nextRGB
     if (@r == 255 && @g < 255 && @b == 0)
-      @g += 5
+      @g += 17
     end
     if (@g == 255 && @r > 0 && @b == 0)
-      @r -= 5
+      @r -= 17
     end
     if (@g == 255 && @b < 255 && @r == 0)
-      @b += 5
+      @b += 17
     end
     if (@b == 255 && @g > 0 && @r == 0)
-      @g -= 5
+      @g -= 17
     end
     if (@b == 255 && @r < 255 && @g == 0)
-      @r += 5
+      @r += 17
     end
     if (@r == 255 && @b > 0 && @g == 0)
-      @b -= 5
+      @b -= 17
     end
   end
 
   def openArts
+    @intro = getArt('intro')
     @pc = getArt('pc')
     @title = getArt('title')
     @keys = getArt('keyboard')
     @mouse = getArt('mouse')
   end
 
-
 end
 
 class IntroAnim < Animations
 
   def drawDetails
-    printf "\e[1B"
-    @pc.each { |i| printf "%s\e[17C%s\e[0m", getStr, i}
+    printf "\e[3B"
+    @pc.each do |i|
+      printf "%s\e[17C%s\e[0m", getStr, i
+    end
     printf "\e[10A"
-    13.times { printf "\e[44C%s%68s\e[0m\n", getBg, "" }
-    printf "\e[11A"
-    @title.each { |i| printf "%s\e[30m\e[46C%s\e[0m", getBg, i}
-    printf "\e[13B"
-    @keys.each { |i| printf "%s\e[19C%s\e[0m", getStr, i }
+    @title.each do |i|
+      nextRGB
+      printf "%s\e[30m\e[44C%s\e[0m", getBg, i
+    end
+    printf "\e[10B"
+    @keys.each do |i|
+      printf "%s\e[19C%s\e[0m", getStr, i 
+    end
     printf "\e[8A"
-    @mouse.each { |i| printf "%s\e[90C%s\e[0m", getStr, i}
-    printf "\e[32A"
+    @mouse.each do |i|
+      printf "%s\e[90C%s\e[0m", getStr, i
+    end
+    printf "\e[34A"
   end
 
   def drawBg
     puts `clear`
     openArts
-    printf "\e[#{HEIGHT}B"
-    art = getArt('intro')
+    HEIGHT.times { printf "\n" }
     setColors
-    art.reverse_each { |i| printf "\e[2A%s%10s%s\e[0m", getStr, "", i ; sleep 0.02}
+    @intro.reverse_each { |i| printf "\e[2A%s%10s%s\e[0m", getStr, "", i ; sleep 0.02}
     @r = 0
-    @g = 255
-    @b = 150
+    @g = 0
+    @b = 255
     while true
       drawDetails
-      sleep 0.06
-      nextRGB
+      sleep 0.12
     end
   end
 
