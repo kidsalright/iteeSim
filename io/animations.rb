@@ -25,22 +25,22 @@ class Animations
 
   def  nextRGB
     if (@r == 255 && @g < 255 && @b == 0)
-      @g += 17
+      @g += 15
     end
     if (@g == 255 && @r > 0 && @b == 0)
-      @r -= 17
+      @r -= 15
     end
     if (@g == 255 && @b < 255 && @r == 0)
-      @b += 17
+      @b += 15
     end
     if (@b == 255 && @g > 0 && @r == 0)
-      @g -= 17
+      @g -= 15
     end
     if (@b == 255 && @r < 255 && @g == 0)
-      @r += 17
+      @r += 15
     end
     if (@r == 255 && @b > 0 && @g == 0)
-      @b -= 17
+      @b -= 15
     end
   end
 
@@ -57,7 +57,6 @@ end
 class IntroAnim < Animations
 
   def drawDetails
-    printf "\e[3B"
     @pc.each do |i|
       printf "%s\e[17C%s\e[0m", getStr, i
     end
@@ -74,7 +73,7 @@ class IntroAnim < Animations
     @mouse.each do |i|
       printf "%s\e[90C%s\e[0m", getStr, i
     end
-    printf "\e[34A"
+    printf "\e[31A"
   end
 
   def drawBg
@@ -88,7 +87,7 @@ class IntroAnim < Animations
     @b = 255
     while true
       drawDetails
-      sleep 0.12
+      sleep 0.1
     end
   end
 
