@@ -17,12 +17,44 @@ class Game
   def initialize
     @money = 0
     @pos = 0
-    @commands = ["new_pc", "hire_slave", "take_order", "exit"]
+    @commands = ["price_list", "new_pc", "hire_slave", "take_order", "exit"]
     @board = File.readlines('ascii/border')
     @status = 1
     Curses::curs_set(0)
     wait_key
     run
+  end
+
+  def slider_down
+    puts "\033[20B"
+    5.times do
+      puts "\r                                                          \n"
+    end
+    puts "\033[5A"
+  end
+
+  def price_list
+    slider_down
+    puts "\r Price list:"
+    puts "\033[21A"
+  end
+
+  def new_pc
+    slider_down
+    puts "\r Buying pc heh"
+    puts "\033[21A"
+  end
+
+  def hire_slave
+    slider_down
+    puts "\r Hiring slave heh"
+    puts "\033[21A"
+  end
+
+  def take_order
+    slider_down
+    puts "\r Taking order like site or game\n or soft and making quests"
+    puts "\033[22A"
   end
 
   def wait_key
@@ -65,8 +97,6 @@ class Game
     @money += 0.1
     sleep 0.1
   end
-
-
 
   def run
     run_thread
@@ -122,9 +152,17 @@ class Game
       end
       send(@commands[@pos])
     when "\e[A"
-      @pos -= 1
+      if @pos == 0
+        @pos = @commands.length - 1
+      else
+        @pos -= 1
+      end
     when "\e[B"
-      @pos += 1
+      if @pos == @commands.length - 1
+        @pos = 0
+      else
+        @pos += 1
+      end
     when "\u0003"
       exit 0
     end
