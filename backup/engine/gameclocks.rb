@@ -22,7 +22,7 @@ class GameTime
   end
 
   def convert
-    @minutes += passed_ms / 500
+    @minutes += passed_ms / 250
     @hours += @minutes / 60
     @minutes %= 60
     @days += @hours / 24
@@ -38,5 +38,5 @@ end
 t = GameTime.new
 while true
   t.clocks
-  sleep(0.5)
+  sleep(0.25)
 end
