@@ -116,11 +116,11 @@ class Game
   def draw_menu
     puts "\r\n"
     @commands.each_with_index do |cmd, i|
-      @board.each {|i| printf "\r\033[60C%s", i}
+      @board.each {|i| printf "\r\033[80C%s", i}
       if i == @pos
-        puts "\r\033[42m\033[2A\033[62C#{cmd.conv}\033[0m"
+        puts "\r\033[42m\033[2A\033[82C#{cmd.conv}\033[0m"
       else
-        puts "\r\033[2A\033[62C#{cmd.conv}"
+        puts "\r\033[2A\033[82C#{cmd.conv}"
       end
     end
     slider_up
