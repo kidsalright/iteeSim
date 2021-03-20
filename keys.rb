@@ -1,3 +1,5 @@
+require_relative 'button'
+
 module Keys
 
   def self.read_char
@@ -16,16 +18,20 @@ module Keys
     return input
   end
 
-  def self.read_key(index)
+  def self.read_key(buttons, index)
     c = read_char
 
+    @buttons = buttons
+    @index = index
     case c
     when "\r"
-      puts "enter"
+      button = @buttons.fetch(@index)
+      button.action
+      0
     when "\e[A"
-      puts "up"
+      -1
     when "\e[B"
-      puts "down"
+      1
     when "\u0003"
       exit 0
     end

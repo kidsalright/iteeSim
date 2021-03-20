@@ -1,31 +1,23 @@
 require 'io/console'
 require 'curses'
-require_relative 'intro'
 require_relative 'keys'
+require_relative 'intro'
+require_relative 'game'
+require_relative 'interface'
+require_relative 'button'
 
 class Engine
 
+  include Interface
   include Keys
 
   def initialize
     intro_helper
-    init_data
-    draw_menu
+    @index = 0
+    @data = Game.new
+    @buttons = Button.descendants
+    Interface::draw_menu(@buttons, @index)
     run_game
-  end
-
-  def draw_menu
-    puts "\r\n"
-    @commands.each_with_index do |cmd, i|
-      @board.each {|i| printf "\r\033[80C%s", i}
-      puts "\r\033[2A\033[82C#{cmd}"
-    end
-  end
-
-  def run_progress
-    puts "\ru have #{@money.to_i} $\033[1A"
-    @money += 0.1
-    sleep 0.1
   end
 
   def run_thread
@@ -33,22 +25,27 @@ class Engine
 
     thread << Thread.new do
       while true
-        Keys::read_key(nil)
+        @index += Keys::read_key(@buttons, @index)
       end
     end
   end
 
-  def run_game
-    run_thread
-    while true
-      run_progress
-    end
+  def progress
+    @data.money += 0.1
+    sleep 0.1
   end
 
-  def init_data
-    @money = 999
-    @commands = %w[ex1 ex2 ex3 ex4]
-    @board = File.readlines('ascii/border')
+  def run_game
+    run_thread
+    old_index = @index
+    while true
+      if @index != old_index
+        Interface::draw_menu(@buttons, @index)
+        old_index = @index
+      end
+      progress
+      Interface::draw_progress(@data.money)
+    end
   end
 
   def intro_helper
