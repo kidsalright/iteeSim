@@ -12,11 +12,12 @@ class Engine
   include Keys
 
   def initialize
+    Curses::curs_set(0)
     intro_helper
+    puts "\033[32m"
     @index = 0
     @data = Game.new
     @buttons = Button.descendants
-    Interface::draw_menu(@buttons, @index)
     run_game
   end
 
@@ -37,7 +38,7 @@ class Engine
 
   def run_game
     run_thread
-    old_index = @index
+    old_index = -1
     while true
       if @index != old_index
         Interface::draw_menu(@buttons, @index)
