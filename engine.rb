@@ -8,13 +8,13 @@ require_relative 'button'
 
 class Engine
 
-  include Interface
   include Keys
 
   def initialize
     Curses::curs_set(0)
     intro_helper
     puts "\033[32m"
+    Interface.draw_frames
     @index = 0
     @data = Game.new
     @buttons = Button.descendants
@@ -25,15 +25,19 @@ class Engine
     thread = []
 
     thread << Thread.new do
+    old_index = @index
       while true
         @index += Keys::read_key(@buttons, @index)
+        if old_index != @index
+          sleep 0.1
+          old_index = @index
+        end
       end
     end
   end
 
   def progress
-    @data.money += 0.1
-    sleep 0.1
+    Button.info(@data)
   end
 
   def run_game
@@ -41,11 +45,12 @@ class Engine
     old_index = -1
     while true
       if @index != old_index
-        Interface::draw_menu(@buttons, @index)
+        Interface.draw_menu(@buttons, @index)
         old_index = @index
       end
       progress
-      Interface::draw_progress(@data.money)
+      Interface.draw_progress(@data)
+      sleep (0.1)
     end
   end
 

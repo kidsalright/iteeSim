@@ -23,6 +23,7 @@ module Keys
 
     @buttons = buttons
     @index = index
+    @clicked = 0
     case c
     when "\r"
       button = @buttons.fetch(@index)
@@ -34,6 +35,8 @@ module Keys
       1
     when "\u0003"
       exit 0
+    else
+      0
     end
   end
 
