@@ -25,11 +25,15 @@ class Engine
     thread = []
 
     thread << Thread.new do
-    old_index = @index
+      old_index = @index
       while true
         @index += Keys::read_key(@buttons, @index)
-        if old_index != @index
-          sleep 0.1
+        if @index == @buttons.length
+          @index = 0
+          old_index = @index
+        end
+        if @index < 0
+          @index = @buttons.length - 1
           old_index = @index
         end
       end
@@ -38,6 +42,7 @@ class Engine
 
   def progress
     Button.info(@data)
+    @data.money += (@data.worker * 0.5)
   end
 
   def run_game
@@ -50,7 +55,7 @@ class Engine
       end
       progress
       Interface.draw_progress(@data)
-      sleep (0.1)
+      sleep 0.1
     end
   end
 

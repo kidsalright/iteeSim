@@ -22,7 +22,7 @@ class Interface
     frames = []
     frames << @progress = { height: 10, width: 35, x: 1, y: 1 }
     frames << @messages = { height: 10, width: 35, x: 38, y: 1 }
-    frames << @office = { height: 20, width: 100, x: 1, y: 12 }
+    frames << @office = { height: 23, width: 100, x: 1, y: 12 }
     frames.each { |frame| draw_frame(frame) }
   end
 
@@ -42,38 +42,67 @@ class Interface
     indentback(@messages)
   end
 
-  def self.draw_office(i)
-    place = File.readlines('ascii/place')
-    worker = File.readlines('ascii/slave')
-    if i == 0
-      indenter(@office)
-      @counter = 0
-      place.each do |i|
-        printf "\r\e[#{@office[:x] + 2}C%s", i
-        @counter += 1
-      end
-      printf "\r\e[#{@counter}A"
-      indentback(@office)
+  def self.draw_worker(worker)
+    person = File.readlines('ascii/slave')
+    @worker = worker - 1
+    if worker > 5
+      printf "\e[10B"
+      @worker -= 5
     end
+    indenter(@office)
+    @counter = 0
+    printf "\e[1A"
+    person.each do |i|
+      printf "\r\e[#{@office[:x] + 8 + @worker * 20}C%s", i
+      @counter += 1
+    end
+    if worker > 5
+      printf "\e[10A"
+    end
+    printf "\r\e[#{@counter - 1}A"
+    indentback(@office)
+  
+  end
+
+  def self.draw_pc(pc)
+    @pc = pc - 1
+    printf "\e[1B"
+    if pc > 5
+      printf "\e[10B"
+      @pc -= 5
+    end
+    place = File.readlines('ascii/place')
+    indenter(@office)
+    @counter = 0
+    place.each do |i|
+      printf "\r\e[#{@office[:x] + 2 + @pc * 20}C%s", i
+      @counter += 1
+    end
+    if pc > 5
+      printf "\e[10A"
+    end
+    printf "\r\e[#{@counter + 1}A"
+    indentback(@office)
   end
 
   def self.draw_menu(buttons, index)
-    printf "\033[1B"
-    width = "\033[80C"
+    printf "\e[1B"
+    width = "\e[80C"
     buttons.each_with_index do |cmd, i|
       printf "\r%s.%s.\n", width, "---------------"
       printf "\r%s|%15s|\n", width, " "
       printf "\r%s'%s'\n", width, "---------------"
       if i == index
-        puts "\r\033[2A\033[82C#{cmd.to_s.upcase}"
+        puts "\r\e[2A\e[82C#{cmd.to_s.delete_suffix("Button").upcase}"
       else
-        puts "\r\033[2A\033[82C#{cmd.to_s}"
+        puts "\r\e[2A\e[82C#{cmd.to_s.delete_suffix("Button")}"
       end
     end
-    puts "\r\033[#{buttons.length*2 + 2}A"
+    puts "\r\e[#{buttons.length*2 + 2}A"
   end
 
   def self.draw_progress(data)
+    draw_frame(@progress)
     indent = "\e[3C"
     puts "\r\e[3B"
     puts "\r#{indent}Balance: #{data.money.to_i}$"
