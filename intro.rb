@@ -1,3 +1,5 @@
+require_relative 'keys'
+
 HEIGHT = 39
 WIDTH = 130
 
@@ -56,6 +58,22 @@ end
 
 class IntroAnim < Animations
 
+  include Keys
+
+  def initialize
+    thread = []
+
+    @press = true
+    init
+    thread << Thread.new do
+      drawBg
+    end
+    until Keys::read_char; end
+    @press = false
+    stopIntro
+    thread.pop
+  end
+
   def drawDetails
     @pc.each do |i|
       printf "\r%s\e[17C%s\e[0m", getStr, i
@@ -77,7 +95,7 @@ class IntroAnim < Animations
   end
 
   def init
-   puts `clear`
+    puts `clear`
     openArts
     HEIGHT.times { printf "\n" }
     setColors
@@ -94,7 +112,7 @@ class IntroAnim < Animations
   end
 
   def drawBg
-     while @status
+    while @status
       drawDetails
       sleep 0.1
     end

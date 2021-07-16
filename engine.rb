@@ -3,75 +3,69 @@ require 'curses'
 require_relative 'keys'
 require_relative 'intro'
 require_relative 'game'
-require_relative 'interface'
 require_relative 'button'
+require_relative 'gui'
 
 class Engine
 
   include Keys
+  include Gui
 
   def initialize
-    Curses::curs_set(0)
-    intro_helper
-    puts "\033[32m"
-    Interface.draw_frames
-    @index = 0
+    Curses::curs_set(0)             # Hide cursor
+    IntroAnim.new
+    puts "\033[32m"                 # Set green text color
+    @cursor = 0                     # Var for tracking cursos pos in menu
     @data = Game.new
     @buttons = Button.descendants
-    run_game
+    @tasks = []                     # Array for storing tasks got from UI
+    init_interface
+    run_game                        # Starting loop that tracks Keyboard keys and @data changing
+  end
+
+  def init_interface
+    Gui::draw_menu(@buttons, @cursor)
+    Gui::init_frames
   end
 
   def run_thread
     thread = []
 
     thread << Thread.new do
-      old_index = @index
+      old_cursor = @cursor
       while true
-        @index += Keys::read_key(@buttons, @index)
-        if @index == @buttons.length
-          @index = 0
-          old_index = @index
-        end
-        if @index < 0
-          @index = @buttons.length - 1
-          old_index = @index
-        end
+        pressed_key = Keys::read_key(@buttons, @cursor)
+        @tasks << pressed_key unless pressed_key == nil
       end
     end
   end
 
   def progress
-    Button.info(@data)
     @data.money += (@data.worker * 0.5)
+  end
+
+  def tasks_handler
+    case @tasks.first
+    when :down
+      @cursor -= 1
+      Gui::draw_menu(@buttons, @cursor)
+    when :up
+      @cursor += 1
+      Gui::draw_menu(@buttons, @cursor)
+    end
+    @tasks.shift
   end
 
   def run_game
     run_thread
-    old_index = -1
+    new_tasks = @tasks.size
     while true
-      if @index != old_index
-        Interface.draw_menu(@buttons, @index)
-        old_index = @index
+      if new_tasks != @tasks.size
+        tasks_handler
+        new_tasks = @tasks.size
       end
-      progress
-      Interface.draw_progress(@data)
       sleep 0.1
     end
-  end
-
-  def intro_helper
-    thread = []
-
-    @press = true
-    intro = IntroAnim.new
-    intro.init
-    thread << Thread.new do
-      intro.drawBg
-    end
-    until Keys::read_char; end
-    @press = false
-    intro.stopIntro
-    thread.pop
   end
 
 end

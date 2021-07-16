@@ -18,25 +18,25 @@ module Keys
     return input
   end
 
-  def self.read_key(buttons, index)
+  def self.read_key(buttons, buttonpos)
     c = read_char
 
     @buttons = buttons
-    @index = index
+    @buttonpos = buttonpos
     @clicked = 0
     case c
     when "\r"
-      button = @buttons.fetch(@index)
-      button.action
-      0
+      button = @buttons.fetch(@buttonpos)
+      ##button.action
+      p button
     when "\e[A"
-      -1
+      :down
     when "\e[B"
-      1
+      :up
     when "\u0003"
       exit 0
     else
-      0
+      return
     end
   end
 

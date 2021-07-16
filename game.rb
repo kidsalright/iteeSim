@@ -15,7 +15,6 @@ class Game
       @money -= price
       1
     else
-      Interface.draw_message("not enough money")
       0
     end
   end
@@ -24,7 +23,6 @@ class Game
     if @pc < 10
       price = 100 + @pc * 100
       @pc += buyable(price)
-      Interface.draw_pc(@pc)
     end
   end
 
@@ -32,7 +30,6 @@ class Game
     if @worker < 10 && @pc > @worker
       price = 100 + @worker * 100
       @worker += buyable(price)
-      Interface.draw_worker(@worker)
     end
   end
 
