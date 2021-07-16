@@ -2,10 +2,16 @@ module Gui
 
   extend self
 
-  def draw_equipment(n)
-    ascii = File.readlines('ascii/place')
-    indenter(@office)
-    p ascii
+  def draw_static(data)
+    indenter(@static)
+    printf "Rank: %s\e[1B", data.rank
+    printf "\r\e[#{@static[:x] + 2}C"
+    printf "Office: %s\e[1B", data.office
+    printf "\r\e[#{@static[:x] + 2}C"
+    printf "Workplaces: %d/%d\e[1B", data.places, data.capacity
+    printf "\r\e[#{@static[:x] + 2}C"
+    printf "Workers: %d/%d\e[1B", data.workers.size, data.places
+    indentback(@static, 4)
   end
 
   def draw_frame(hash)
@@ -28,9 +34,10 @@ module Gui
 
   def init_frames
     frames = []
-    frames << @progress = { height: 12, width: 44, x: 1, y: 1  }
+    frames << @dinamic = { height: 5, width: 44, x: 1, y: 1  }
+    frames << @static = { height: 6, width: 44, x: 1, y: 7  }
     frames << @messages = { height: 12, width: 44, x: 48, y: 1  }
-    frames << @office = { height: 20, width: 91, x: 1, y: 14  }
+    frames << @workplace = { height: 20, width: 91, x: 1, y: 14  }
     frames.each { |frame| draw_frame(frame)  }
   end
 
@@ -51,11 +58,11 @@ module Gui
 
   def indenter(hash)
     printf "\r\e[#{hash[:x] + 2}C"
-    printf "\e[#{hash[:y] + 2}B"
+    printf "\e[#{hash[:y] + 1}B"
   end
 
-  def indentback(hash)
-    printf "\e[#{hash[:y] + 2}A"
+  def indentback(hash, n = 0)
+    printf "\e[#{hash[:y] + 1 + n}A"
   end
 
 end

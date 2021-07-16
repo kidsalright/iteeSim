@@ -16,11 +16,11 @@ class Engine
     IntroAnim.new
     puts "\033[32m"                 # Set green text color
     @cursor = 0                     # Var for tracking cursos pos in menu
-    @data = Game.new
+    @game = Game.new
     @buttons = Button.descendants
-    @tasks = []                     # Array for storing tasks got from UI
+    @events = []                    # Array for storing events got from UI
     init_interface
-    run_game                        # Starting loop that tracks Keyboard keys and @data changing
+    run_game                        # Starting loop that tracks Keyboard keys and @game changing
   end
 
   def init_interface
@@ -33,34 +33,34 @@ class Engine
 
     thread << Thread.new do
       old_cursor = @cursor
-      while true
-        pressed_key = Keys::read_key(@buttons, @cursor)
-        @tasks << pressed_key unless pressed_key == nil
+      while @game.status
+        pressed_key = Keys::read_key(@cursor)
+        @events << pressed_key unless pressed_key == nil
       end
     end
   end
 
-  def progress
-    @data.money += (@data.worker * 0.5)
-  end
-
-  def tasks_handler
-    case @tasks.first
+  def events_handler
+    case @events.first
     when :down
       @cursor >= @buttons.size - 1 ? @cursor = 0 : @cursor += 1
       Gui::draw_menu(@buttons, @cursor)
     when :up
       @cursor <= 0 ? @cursor = @buttons.size - 1 : @cursor -= 1
       Gui::draw_menu(@buttons, @cursor)
+    when :pressed
+      button = @buttons.fetch(@cursor)
+      button.action(@game)
+      Gui::draw_static(@game)
     end
-    @tasks.shift
+    @events.shift
   end
 
   def run_game
     run_thread
-    new_tasks = @tasks.size
-    while true
-      tasks_handler
+    new_events = @events.size
+    while @game.status
+      events_handler
       sleep 0.02
     end
   end

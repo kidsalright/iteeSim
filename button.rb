@@ -3,9 +3,7 @@ require_relative 'interface'
 
 class Button
 
-  def self.action
-    printf "\rEmpty button click"
-    printf "\e[2A"
+  def self.action(data)
   end
 
   def self.descendants
@@ -15,7 +13,8 @@ class Button
 end
 
 class ExitButton < Button
-  def self.action
+  def self.action(data)
+    data.status = false
     exit
   end
 end

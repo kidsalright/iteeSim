@@ -18,16 +18,12 @@ module Keys
     return input
   end
 
-  def self.read_key(buttons, buttonpos)
+  def self.read_key(buttonpos)
     c = read_char
 
-    @buttons = buttons
-    @buttonpos = buttonpos
-    @clicked = 0
     case c
     when "\r"
-      #button = @buttons.fetch(@buttonpos)
-      ##button.action
+      :pressed
     when "\e[A"
       :up
     when "\e[B"
@@ -35,7 +31,7 @@ module Keys
     when "\u0003"
       exit 0
     else
-      return
+      nil
     end
   end
 
