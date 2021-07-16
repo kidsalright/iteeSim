@@ -47,10 +47,10 @@ class Engine
   def tasks_handler
     case @tasks.first
     when :down
-      @cursor -= 1
+      @cursor >= @buttons.size - 1 ? @cursor = 0 : @cursor += 1
       Gui::draw_menu(@buttons, @cursor)
     when :up
-      @cursor += 1
+      @cursor <= 0 ? @cursor = @buttons.size - 1 : @cursor -= 1
       Gui::draw_menu(@buttons, @cursor)
     end
     @tasks.shift
@@ -60,11 +60,8 @@ class Engine
     run_thread
     new_tasks = @tasks.size
     while true
-      if new_tasks != @tasks.size
-        tasks_handler
-        new_tasks = @tasks.size
-      end
-      sleep 0.1
+      tasks_handler
+      sleep 0.02
     end
   end
 

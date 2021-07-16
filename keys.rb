@@ -26,13 +26,12 @@ module Keys
     @clicked = 0
     case c
     when "\r"
-      button = @buttons.fetch(@buttonpos)
+      #button = @buttons.fetch(@buttonpos)
       ##button.action
-      p button
     when "\e[A"
-      :down
-    when "\e[B"
       :up
+    when "\e[B"
+      :down
     when "\u0003"
       exit 0
     else

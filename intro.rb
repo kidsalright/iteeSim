@@ -68,6 +68,7 @@ class IntroAnim < Animations
     thread << Thread.new do
       drawBg
     end
+    sleep(0.2)
     until Keys::read_char; end
     @press = false
     stopIntro

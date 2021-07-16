@@ -4,7 +4,8 @@ require_relative 'interface'
 class Button
 
   def self.action
-
+    printf "\rEmpty button click"
+    printf "\e[2A"
   end
 
   def self.descendants
@@ -19,8 +20,23 @@ class ExitButton < Button
   end
 end
 
-class TestButton < Button
+class HelpButton < Button
 end
 
-class Test2Button < Button
+class UpgradeOfficeButton < Button
+end
+
+class BuyEquipmentButton < Button
+end
+
+class HireButton < Button
+end
+
+class AAAOrderButton < Button
+end
+
+class BigProjectButton < Button
+end
+
+class SmallOutsourceButton < Button
 end
