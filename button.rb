@@ -1,7 +1,8 @@
 require_relative 'game'
-require_relative 'interface'
+require_relative 'gui'
 
 class Button
+  include Gui
 
   def self.action(data)
   end
@@ -20,6 +21,9 @@ class ExitButton < Button
 end
 
 class HelpButton < Button
+  def self.action(data)
+    Gui::draw_message(data.help)
+  end
 end
 
 class UpgradeOfficeButton < Button

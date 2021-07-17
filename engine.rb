@@ -26,6 +26,8 @@ class Engine
   def init_interface
     Gui::draw_menu(@buttons, @cursor)
     Gui::init_frames
+    Gui::draw_static(@game)
+    Gui::draw_office(@game.officeArt)
   end
 
   def run_thread
@@ -51,7 +53,6 @@ class Engine
     when :pressed
       button = @buttons.fetch(@cursor)
       button.action(@game)
-      Gui::draw_static(@game)
     end
     @events.shift
   end
@@ -60,6 +61,8 @@ class Engine
     run_thread
     new_events = @events.size
     while @game.status
+      Gui::draw_dynamic(@game)
+      @game.gain
       events_handler
       sleep 0.02
     end

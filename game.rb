@@ -14,10 +14,31 @@ class Game
     @offices = ["Small place near junkyard", "Garage",
                 "Corner in thai beauty saloon", "Own room in sh*tty office building",
                 "Big Office in a cool business center", "Own f*ucking building in Silicon Valley"]
-    @capacity = 2
+    @capacity = 4
     @office = 0
-    @places = 0
-    @workers = []
+    @places = 2
+    @workers = 1
+  end
+
+  def officeArt
+    withGuy = @workers
+    noGuy = @places - @workers
+    closed = 10 - @capacity
+    avail = @capacity - @places
+    ascii1 = File.readlines('ascii/slave')
+    ascii2 = File.readlines('ascii/place')
+    ascii3 = File.readlines('ascii/avail')
+    ascii4 = File.readlines('ascii/empty')
+    res = []
+    withGuy.times { ascii1.each {|i| res << i} }
+    noGuy.times   { ascii2.each {|i| res << i} }
+    avail.times   { ascii3.each {|i| res << i} }
+    closed.times  { ascii4.each {|i| res << i} }
+    res
+  end
+
+  def gain
+    @money += 0.1
   end
 
   def office
@@ -34,6 +55,19 @@ class Game
 
   def rankUp
     @rank += 1 unless @rank == @ranks.size
+  end
+
+  def help
+    ["ITeeSim - IT Simulator progresser game,",
+     "where your main purpose is to found",
+     "huge IT development company:",
+     "get big office, set up working places",
+     "hire a lot of developers and become",
+     "really big boss to overshadow",
+     "Elon Mask, Jeff Bezos, Mark Zuckerberg",
+     "and other c*cksu*kers!)",
+     "Can u get out from this trash heap",
+     "and go to be best IT director in da world?"]
   end
 
 end
