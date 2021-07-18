@@ -22,14 +22,31 @@ end
 
 class HelpButton < Button
   def self.action(data)
-    Gui::draw_message(data.help)
+    Gui::clearFrame("message")
+    Gui::draw_message(data.messages.help)
   end
 end
 
 class UpgradeOfficeButton < Button
+  def self.action(data)
+    data.officeUp
+    Gui::draw_office(data.officeArt)
+    Gui::clearFrame("message")
+    Gui::draw_message(["Upgraded office"])
+    Gui::clearFrame("static")
+    Gui::draw_static(data)
+  end
+end
+
+class HintsButton < Button
+  def self.action(data)
+    Gui::clearFrame("message")
+    Gui::draw_message(data.messages.hints)
+  end
 end
 
 class BuyEquipmentButton < Button
+
 end
 
 class HireButton < Button

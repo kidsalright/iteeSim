@@ -59,10 +59,9 @@ class Engine
 
   def run_game
     run_thread
-    new_events = @events.size
     while @game.status
       Gui::draw_dynamic(@game)
-      @game.gain
+      @game.progress
       events_handler
       sleep 0.02
     end

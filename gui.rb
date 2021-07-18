@@ -25,7 +25,7 @@ module Gui
   def draw_message(arr)
     indentStart(@message)
     arr.each do |i|
-      printf "%s\e[1B", i
+      printf "%s", i
       indentLine(@message)
     end
     indentEnd(@message, arr.size)
@@ -33,38 +33,53 @@ module Gui
 
   def draw_dynamic(data)
     indentStart(@dynamic)
-    printf "Money: %d", data.money
-    indentEnd(@dynamic)
+    printf "%02d:%02d   day: %d", data.hours, data.minutes, data.days
+    indentLine(@dynamic)
+    printf "Money:  %d$", data.money
+    indentEnd(@dynamic, 1)
   end
 
   def draw_static(data)
     indentStart(@static)
-    printf "Rank: %s\e[1B", data.rank
+    printf "Rank: %s", data.rank
     indentLine(@static)
-    printf "Office: %s\e[1B", data.office
+    printf "Office: %s", data.office
     indentLine(@static)
-    printf "Workplaces: %d/%d\e[1B", data.places, data.capacity
+    printf "Workplaces: %d/%d", data.places, data.capacity
     indentLine(@static)
-    printf "Workers: %d/%d\e[1B", data.workers.size, data.places
-    indentEnd(@static, 4)
+    printf "Workers: %d/%d", data.workers, data.places
+    indentEnd(@static, 3)
   end
 
   def draw_frame(hash)
     printf "\r\e[#{hash[:y]}B"
     printf "\r\e[#{hash[:x]}C"
-    printf "┌"
-    hash[:width].times { printf "-"  }
-    printf "┐", " "
+    printf "┏"
+    hash[:width].times { printf "━"  }
+    printf "┓", " "
     hash[:height].times do
       printf "\r\e[#{hash[:x]}C"
-      printf "\e[1B|%#{hash[:width]}s|", ""
+      printf "\e[1B┃%#{hash[:width]}s┃", ""
     end
     printf "\r\e[#{hash[:x]}C"
-    printf "└"
-    hash[:width].times { printf "-"  }
-    printf "┘"
+    printf "┗"
+    hash[:width].times { printf "━"  }
+    printf "┛"
     printf "\r\e[#{hash[:height]}A"
     printf "\r\e[#{hash[:y]}A"
+  end
+
+  def clearFrame(str)
+    case str
+    when "dynamic"
+      draw_frame(@dynamic)
+    when "static"
+      draw_frame(@static)
+    when "message"
+      draw_frame(@message)
+    when "office"
+      draw_frame(@office)
+    end
   end
 
   def init_frames
@@ -81,10 +96,10 @@ module Gui
     width = "\e[95C"
     buttons.each_with_index do |cmd, i|
       button = cmd.to_s.delete_suffix("Button").upcase
-      printf "\r%s%s\n", width, "┍━━━━━━━━━━━━━━━━━━━━━┑"
-      i == pos ? (printf "\r%s|\e[48;2;1;61;54m    %-16s \e[49m|\n", width, button)
-      : (printf "\r%s|    %-16s |\n", width, button)
-      printf "\r%s%s\n", width, "┕━━━━━━━━━━━━━━━━━━━━━┙"
+      printf "\r%s%s\n", width, "╔═════════════════════╗"
+      i == pos ? (printf "\r%s║\e[48;2;1;61;54m    %-16s \e[49m║\n", width, button)
+      : (printf "\r%s║    %-16s ║\n", width, button)
+      printf "\r%s%s\n", width, "╚═════════════════════╝"
     end
     puts "\r\e[#{buttons.length*3 + 2}A"
   end
@@ -92,7 +107,7 @@ module Gui
   private
 
   def indentLine(hash)
-    printf "\r\e[#{hash[:x] + 2}C"
+    printf "\e[1B\r\e[#{hash[:x] + 2}C"
   end
 
   def indentStart(hash)
