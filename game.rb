@@ -3,7 +3,7 @@ require_relative 'interface'
 class Game
 
   attr_accessor :status
-  attr_reader :money, :capacity, :places, :workers,:hours, :minutes, :days, :messages
+  attr_reader :money, :capacity, :pcs, :devs,:hours, :minutes, :days, :messages
 
   def initialize
     @status = true
@@ -15,16 +15,24 @@ class Game
                 "Corner in thai beauty saloon", "Own room in sh*tty office building",
                 "Office in a modern business center", "F*cking Silicon Valley headquarters"]
     @capacity = 1
-    @office, @places, @workers = 0, 0, 0
+    @office, @pcs, @devs = 0, 0, 0
     @passed_ms, @minutes, @hours, @days = 0, 0, 0, 0
     @messages = Messages.new
   end
 
+  def employDev
+    @devs += 1 unless @devs >= @pcs
+  end
+
+  def buyPc
+    @pcs += 1 unless @pcs - @capacity >= 0
+  end
+
   def officeArt
-    withGuy = @workers
-    noGuy = @places - @workers
+    withGuy = @devs
+    noGuy = @pcs - @devs
     closed = 10 - @capacity
-    avail = @capacity - @places
+    avail = @capacity - @pcs
     ascii1 = File.readlines('ascii/slave')
     ascii2 = File.readlines('ascii/place')
     ascii3 = File.readlines('ascii/avail')
@@ -94,8 +102,8 @@ class Messages
              "that u can't hire any developer",
              "cause you don't have computers yet.",
              " ", "When you upgrade office,buy 2 computers and",
-             "hire an employee, you would have 2/2 workplaces",
-             "and 1/2 devs"]
+             "hire an employee, you would have 2/2",
+             "workplaces and 1/2 devs"]
     hint2 = ["Difficulty of the projects affects",
              "the completion time and the reward,",
              "easier projects completes faster, but",

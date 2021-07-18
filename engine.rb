@@ -24,7 +24,9 @@ class Engine
   end
 
   def init_interface
-    Gui::draw_menu(@buttons, @cursor)
+    @menu = @buttons.map { |name| name.to_s.delete_suffix("Button")
+      .scan(/[A-Z][^A-Z]*/).join(' ').upcase }
+    Gui::draw_menu(@menu, @cursor)
     Gui::init_frames
     Gui::draw_static(@game)
     Gui::draw_office(@game.officeArt)
@@ -34,9 +36,8 @@ class Engine
     thread = []
 
     thread << Thread.new do
-      old_cursor = @cursor
       while @game.status
-        pressed_key = Keys::read_key(@cursor)
+        pressed_key = Keys::read_key
         @events << pressed_key unless pressed_key == nil
       end
     end
@@ -46,10 +47,10 @@ class Engine
     case @events.first
     when :down
       @cursor >= @buttons.size - 1 ? @cursor = 0 : @cursor += 1
-      Gui::draw_menu(@buttons, @cursor)
+      Gui::draw_menu(@menu, @cursor)
     when :up
       @cursor <= 0 ? @cursor = @buttons.size - 1 : @cursor -= 1
-      Gui::draw_menu(@buttons, @cursor)
+      Gui::draw_menu(@menu, @cursor)
     when :pressed
       button = @buttons.fetch(@cursor)
       button.action(@game)

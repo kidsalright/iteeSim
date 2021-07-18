@@ -18,7 +18,7 @@ module Keys
     return input
   end
 
-  def self.read_key(buttonpos)
+  def self.read_key
     c = read_char
 
     case c

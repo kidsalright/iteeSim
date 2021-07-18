@@ -45,9 +45,9 @@ module Gui
     indentLine(@static)
     printf "Office: %s", data.office
     indentLine(@static)
-    printf "Workplaces: %d/%d", data.places, data.capacity
+    printf "Workplaces: %d/%d", data.pcs, data.capacity
     indentLine(@static)
-    printf "Workers: %d/%d", data.workers, data.places
+    printf "Workers: %d/%d", data.devs, data.pcs
     indentEnd(@static, 3)
   end
 
@@ -94,11 +94,10 @@ module Gui
   def draw_menu(buttons, pos)
     printf "\e[1B"
     width = "\e[95C"
-    buttons.each_with_index do |cmd, i|
-      button = cmd.to_s.delete_suffix("Button").upcase
+    buttons.each_with_index do |button, i|
       printf "\r%s%s\n", width, "╔═════════════════════╗"
-      i == pos ? (printf "\r%s║\e[48;2;1;61;54m    %-16s \e[49m║\n", width, button)
-      : (printf "\r%s║    %-16s ║\n", width, button)
+      i == pos ? (printf "\r%s║\e[48;2;1;61;54m  %-16s   \e[49m║\n", width, button)
+               : (printf "\r%s║  %-16s   ║\n", width, button)
       printf "\r%s%s\n", width, "╚═════════════════════╝"
     end
     puts "\r\e[#{buttons.length*3 + 2}A"
