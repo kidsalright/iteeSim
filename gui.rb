@@ -34,13 +34,16 @@ module Gui
   def draw_dynamic(data)
     indentStart(@dynamic)
     printf "%02d:%02d   day: %d", data.time.hours,
-                                  data.time.minutes, data.time.days
+      data.time.minutes, data.time.days
     indentLine(@dynamic)
     printf "Money:  %d$", data.money
-    indentLine(@dynamic)
-    indentLine(@dynamic)
-    printf "Project progress: 56%%"
-    indentEnd(@dynamic, 3)
+    if data.started != nil
+      indentLine(@dynamic)
+      printf "Project progression: %d%%", data.completion
+      indentEnd(@dynamic, 2)
+      return
+    end
+    indentEnd(@dynamic, 1)
   end
 
   def draw_static(data)
@@ -49,9 +52,9 @@ module Gui
     indentLine(@static)
     printf "Office: %s", data.office
     indentLine(@static)
-    printf "Workplaces: %d/%d", data.pcs, data.capacity
+    printf "Computers: %d/%d", data.pcs, data.capacity
     indentLine(@static)
-    printf "Workers: %d/%d", data.devs, data.pcs
+    printf "Developers: %d/%d", data.devs, data.pcs
     indentEnd(@static, 3)
   end
 

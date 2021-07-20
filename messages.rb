@@ -6,9 +6,7 @@ class Messages
 
   def progression(rank, completed,spent)
     ["Your rank is #{rank}",
-     "next rank ...",
-     "completed projects #{completed}",
-     "spent money #{spent}"]
+     "completed projects #{completed}"]
   end
 
   def hints

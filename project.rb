@@ -1,12 +1,11 @@
 class Project
 
-  attr_reader :from, :type, :lvlword, :reward
+  attr_reader :from, :type, :lvlword, :reward, :lvl
 
   def initialize(rank)
     setupLvl(rank)
     @from = projectFrom
     @type = projectType
-    @complexity = @lvl * rand(100..150)
   end
 
   def setupLvl(rank)
