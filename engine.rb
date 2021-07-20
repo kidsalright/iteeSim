@@ -29,7 +29,7 @@ class Engine
     Gui::draw_menu(@menu, @cursor)
     Gui::init_frames
     Gui::draw_static(@game)
-    Gui::draw_office(@game.officeArt)
+    Gui::draw_office(@game.asciiOffice)
   end
 
   def run_thread
@@ -64,7 +64,7 @@ class Engine
       Gui::draw_dynamic(@game)
       @game.progress
       events_handler
-      sleep 0.02
+      sleep 0.01
     end
   end
 

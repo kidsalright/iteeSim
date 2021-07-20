@@ -24,6 +24,8 @@ module Keys
     case c
     when "\r"
       :pressed
+    when " "
+      :confirm
     when "\e[A"
       :up
     when "\e[B"

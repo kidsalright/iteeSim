@@ -11,11 +11,6 @@ class Button
     ObjectSpace.each_object(Class).select { |klass| klass < self  }
   end
 
-  def self.refreshGui(data)
-    Gui::clearFrame("message")
-    Gui::clearFrame("static")
-    Gui::draw_static(data)
-  end
 end
 
 class ExitButton < Button
@@ -40,47 +35,80 @@ class ShowHintsButton < Button
 end
 
 class ProgressionButton < Button
+  def self.action(data)
+    Gui::clearFrame("message")
+    Gui::draw_message(data.statistics)
+  end
+end
+
+class FireDeveloperButton < Button
+
+end
+
+class EmployDeveloperButton < Button
+  def self.action(data)
+    str = data.employDev
+    if str == "ok"
+      Gui::draw_office(data.asciiOffice)
+      Gui::clearFrame("message")
+      Gui::clearFrame("static")
+      Gui::clearFrame("dynamic")
+      Gui::draw_static(data)
+      Gui::draw_message(["Employed one f*cking junior developer"])
+    else
+      Gui::clearFrame("message")
+      Gui::draw_message([str])
+    end
+  end
 end
 
 class UpgradeOfficeButton < Button
   def self.action(data)
-    data.officeUp
-    Gui::draw_office(data.officeArt)
-    refreshGui(data)
-    Gui::draw_message(["Upgraded office"])
+    str = data.officeUp
+    if str == "ok"
+      Gui::draw_office(data.asciiOffice)
+      Gui::clearFrame("message")
+      Gui::clearFrame("static")
+      Gui::clearFrame("dynamic")
+      Gui::draw_static(data)
+      Gui::draw_message(["Upgraded your f*cking office"])
+    else
+      Gui::clearFrame("message")
+      Gui::draw_message([str])
+    end
   end
 end
 
 class BuyComputerButton < Button
   def self.action(data)
-    data.buyPc
-    Gui::draw_office(data.officeArt)
-    refreshGui(data)
-    Gui::draw_message(["Bought PC"])
+    str = data.buyPc
+    if str == "ok"
+      Gui::draw_office(data.asciiOffice)
+      Gui::clearFrame("message")
+      Gui::clearFrame("static")
+      Gui::clearFrame("dynamic")
+      Gui::draw_static(data)
+      Gui::draw_message(["Bought PC or Laptop i dont giv a fuck"])
+    else
+      Gui::clearFrame("message")
+      Gui::draw_message([str])
+    end
   end
 end
 
-class EmployDeveloperButton < Button
-def self.action(data)
-    data.employDev
-    Gui::draw_office(data.officeArt)
-    refreshGui(data)
-    Gui::draw_message(["employed"])
+class StartProjectButton < Button
+end
+
+class FindProjectButton < Button
+  def self.action(data)
+    data.newProject
+    Gui::clearFrame("message")
+    Gui::draw_message(["You found an order","",
+                       "Task: #{data.project.type}",
+                       "From: #{data.project.from}","",
+                       "Potential earnings: #{data.project.reward}$",
+                       "Approximate completion time: 1 day",
+                       "Difficulty: #{data.project.lvlword}"])
+
   end
-
-end
-
-class ShowPricesButton < Button
-end
-
-class CancelProjectButton < Button
-end
-
-class HardProjectButton < Button
-end
-
-class MediumProjectButton < Button
-end
-
-class EasyProjectButton < Button
 end

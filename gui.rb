@@ -33,10 +33,14 @@ module Gui
 
   def draw_dynamic(data)
     indentStart(@dynamic)
-    printf "%02d:%02d   day: %d", data.hours, data.minutes, data.days
+    printf "%02d:%02d   day: %d", data.time.hours,
+                                  data.time.minutes, data.time.days
     indentLine(@dynamic)
     printf "Money:  %d$", data.money
-    indentEnd(@dynamic, 1)
+    indentLine(@dynamic)
+    indentLine(@dynamic)
+    printf "Project progress: 56%%"
+    indentEnd(@dynamic, 3)
   end
 
   def draw_static(data)
@@ -97,7 +101,7 @@ module Gui
     buttons.each_with_index do |button, i|
       printf "\r%s%s\n", width, "╔═════════════════════╗"
       i == pos ? (printf "\r%s║\e[48;2;1;61;54m  %-16s   \e[49m║\n", width, button)
-               : (printf "\r%s║  %-16s   ║\n", width, button)
+      : (printf "\r%s║  %-16s   ║\n", width, button)
       printf "\r%s%s\n", width, "╚═════════════════════╝"
     end
     puts "\r\e[#{buttons.length*3 + 2}A"
