@@ -9,17 +9,17 @@ Requirements:
 * Gem 'Curses', (im usin' it to hide cursor only)
 so after cloning rep use:
 
-- $ gem install curses
+ $ gem install curses
 
 
-* Then, just run:
+Then, just run:
 
-- $ ruby run.rb
+ $ ruby run.rb
 
 
 * How to play?
 
-- U could learn everything about gameplay by clicking HINTS button
+ U could learn everything about gameplay by clicking HINTS button
 
 * About creating:
 
