@@ -1,8 +1,8 @@
 require_relative 'messages'
-require_relative 'time'
-require_relative 'helper'
+require_relative 'gametime'
+require_relative 'gamehelper'
 require_relative 'project'
-require_relative 'gui'
+require_relative '../gui/gui'
 
 class Game
 

@@ -1,10 +1,10 @@
 require 'io/console'
 require 'curses'
 require_relative 'keys'
-require_relative 'intro'
-require_relative 'game'
 require_relative 'button'
-require_relative 'gui'
+require_relative '../gui/intro'
+require_relative '../gui/gui'
+require_relative '../data/game'
 
 class Engine
 
@@ -69,5 +69,3 @@ class Engine
   end
 
 end
-
-Engine.new

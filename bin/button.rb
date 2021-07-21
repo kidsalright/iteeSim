@@ -1,7 +1,8 @@
-require_relative 'game'
-require_relative 'gui'
+require_relative '../data/game'
+require_relative '../gui/gui'
 
 class Button
+
   include Gui
 
   def self.action(data)

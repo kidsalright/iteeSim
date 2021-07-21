@@ -1,4 +1,4 @@
-require_relative 'keys'
+require_relative '../bin/keys'
 
 HEIGHT = 39
 WIDTH = 130

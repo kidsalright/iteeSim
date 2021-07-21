@@ -1,30 +1,36 @@
-For trainin my OOP and SOLID skills i've coded this game.
-Atm it works, but it could be much more interesting, i had
-a lot of ideas to make game great..
+### IteeSim
 
-But im tired of perspectiveless coding,
-hire me please, i wanna have a job heh)))
+![](shared/newAnim.gif)
 
-![](trash/newAnim.gif)
+Requirements:
 
+Unix system and Ruby)
 
-Firstly, u need gem 'Curses', (im usin' it to hide cursor only)
+Gem 'Curses', (im usin' it to hide cursor only)
 so after cloning rep use:
 
-gem install curses
+$ gem install curses
 
 
 Then, just run:
 
-ruby engine.rb
+$ ruby run.rb
 
 
-And ofc it works only with UNIX systems (because of ANSII escape sequences
-that move cursor, idk how to do it on windows, and i dont wana know it)
+How to play?
 
-So, after running game u have to CLICK for gaining money...
-More pc's - more $$$ for click
-More employees - more passive $$$
-But the limit is 10 pc's, so maximum is [10/10]...
-Gl hf
-![](trash/game.png)
+* U could learn everything about gameplay by clicking HINTS button
+
+About creating:
+
+I was coding the game just to train OOP, SOLID and Ruby,
+but it turned out really good, funny and playable.
+
+Everything works fine, but there is one thing to do -
+fix formulas, cause order completion is too fast,
+rewards for it r too big; developers salaries r too high,
+cause passive gaining from rank too low...It is not coding problem,
+just some gameplay fix, but im so tired of perspectivless coding, i wanna
+find job, hire me, im cool developer!)
+
+![](shared/screen.png)
