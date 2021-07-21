@@ -1,27 +1,27 @@
 ### IteeSim
 
-![](shared/newAnim.gif)
+![](shared/logo.gif)
 
 Requirements:
 
-Unix system and Ruby)
+* Unix system and Ruby)
 
-Gem 'Curses', (im usin' it to hide cursor only)
+* Gem 'Curses', (im usin' it to hide cursor only)
 so after cloning rep use:
 
-$ gem install curses
+- $ gem install curses
 
 
-Then, just run:
+* Then, just run:
 
-$ ruby run.rb
+- $ ruby run.rb
 
 
-How to play?
+* How to play?
 
-* U could learn everything about gameplay by clicking HINTS button
+- U could learn everything about gameplay by clicking HINTS button
 
-About creating:
+* About creating:
 
 I was coding the game just to train OOP, SOLID and Ruby,
 but it turned out really good, funny and playable.
